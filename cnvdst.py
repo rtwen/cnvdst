@@ -29,7 +29,7 @@ from optparse import OptionParser
 
 
 def parseCommand():
-    usage = "usage: ./" + sys.argv[0] + " -i sample.list -o . -s all -c 3"
+    usage = "usage: ./" + sys.argv[0] + " -i sample.list -o . -s all -c control.sample.list -t test.bed -r hg19.fa"
     version = "%prog 1.0"
     parser = OptionParser(usage=usage, version=version)
     parser.add_option("-i", "--input", dest="input", help="sample list file")
@@ -42,7 +42,7 @@ def parseCommand():
     parser.add_option("-e", "--refgene", dest="refgene", help="ucsc refgene file longest transcript file",type="str",default="/db/GATK/longest_transcript.sort.txt.gz")
     parser.add_option("-m", "--sample", dest="sample", help="which sample need to analysis,default all",default="all")
     parser.add_option("-s", "--steps",dest="stepTag",
-    help="select step to run, f for fqFilter, b for bwaMem,and bam merge, m for bamMarkdup, r for bamRealignment and bamRecalibration, v for snv, j for jointVariant, t for TMB, c for cnvkit, i for MSI, q for bamQC,s for manta ,u for mergeRsult  default set to all",default="all")
+    help="select step to run,  default set to all",default="all")
 
     return parser.parse_args()
 
