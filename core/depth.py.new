@@ -1,0 +1,66 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+'''tanbowen'''
+
+import os,sys,re
+import numpy as np
+import pandas as pd
+import pysam
+from . import region
+
+
+def bin_depth(bamf,bedregion,binSize=100,shiftSize=80,minSize=60,mapq=20):
+    sregion = region.shift_window(bedregion,binSize,shiftSize,minSize)
+    region_coverage(bamf,sregion,mapq)
+    return sregion
+
+
+def chrom_mean_bin_depth(region_depth):
+    chrom_mean_depth = region_depth['depth'].groupby(region_depth['chrom']).mean()
+    return chrom_mean_depth
+
+
+def chrom_median_bin_depth(region_depth):
+    chrom_median_depth = region_depth['depth'].groupby(region_depth['chrom']).mean()
+    return chrom_median_depth
+
+
+def region_coverage(bamf,tregion,min_mapq=20):
+
+    bamfile = pysam.AlignmentFile(bamf, 'rb')
+    #region_depth = pd.DataFrame(tregion).copy(deep=True)
+    cov =[]
+    for index,row in tregion.iterrows():
+        depth = bamfile.count_coverage(row[0],row[1],row[2],quality_threshold = min_mapq)
+        cov.append(depth)
+    tregion['depth'] = cov
+    tregion['depth'] = tregion['depth'].astype('float')
+    bamfile.close()
+    return
+
+
+def depth_count(bamf,chrom,start,end,min_mapq=20):
+    depth = bamf.count_coverage(chrom,start,end,quality_threshold = min_mapq,read_callback='all')
+    rlen = end - start
+    allbase = sum(depth[0] + depth[1] + depth[2] + depth[3])
+    mean_depth = round(allbase/rlen,2)
+    return mean_depth
+
+
+def depth_count(bamf,chrom,start,end,min_mapq=20):
+
+    def check_reads(reads):
+         return not (read.is_duplicate
+                    or read.is_secondary
+                    or read.is_unmapped
+                    or read.is_qcfail
+                    or read.mapq < min_mapq
+                    )
+    depth = bamf.count(chrom,start,end,read_callback=check_reads(self))
+
+
+
+
+if __name__ == '__main__':
+    print("hhh")
+

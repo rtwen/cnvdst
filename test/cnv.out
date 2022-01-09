@@ -1,0 +1,3 @@
+	chrom	start	end	binNum	binLen	depth	ratio	ControlMeanRatio	fixRatio	cn
+0	chr13	28578183	28644754	51	3689	1791.17	0.68	1.13	0.6	1
+1	chr8	128748834	128753209	55	5455	6403.36	2.43	1.09	2.23	4
