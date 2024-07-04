@@ -15,7 +15,7 @@ def fit_hmm(
         variance_fixed,  # variance for the zero copy number state 
         min_copy_number=0,  # minimum copy number to consider in the model
         max_copy_number=6,  # maximum copy number to consider in the model 
-        n_iter=1000000,  # number of iterations to perform when fitting the model
+        n_iter=10,  # number of iterations to perform when fitting the model
         params='st',  # parameters that can be changed through fitting 
         init_params='',  # parameters that are initialised from the data
         ):
